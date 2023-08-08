@@ -51,6 +51,8 @@ public class ClientController {
         client.ifPresent(c -> c.setCompanyName(updatedClient.getCompanyName()));
 
         client.ifPresent(c -> repository.save(c));
+
+        System.out.println("Update client");
         return ResponseEntity.ok(client);
     }
 
@@ -59,6 +61,7 @@ public class ClientController {
         Optional<Client> client = repository.findById(id);
 
         client.ifPresent(c -> repository.delete(c));
+        System.out.println("Delete client");
     }
 
 }
