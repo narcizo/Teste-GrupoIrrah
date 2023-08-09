@@ -4,6 +4,7 @@ import com.narcizo.TesteIrrah.entity.Client;
 import com.narcizo.TesteIrrah.repository.ClientRepository;
 import com.narcizo.TesteIrrah.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,18 @@ public class ClientController {
     @PostMapping
     public ResponseEntity<Client> createClient (@RequestBody Client client) {
         Client created = service.createClient(client);
+
+        if (created.getId() == 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(created);
         return ResponseEntity.ok(created);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Client> updateClient(@PathVariable Long id, @RequestBody Client updatedClient){
         Client updated = service.updateClient(id, updatedClient);
+
+        if (updated.getId() == 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(updated);
         return ResponseEntity.ok(updated);
     }
 

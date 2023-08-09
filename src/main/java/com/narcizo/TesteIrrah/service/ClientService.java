@@ -1,5 +1,6 @@
 package com.narcizo.TesteIrrah.service;
 
+import com.narcizo.TesteIrrah.Utils.MyUtils;
 import com.narcizo.TesteIrrah.entity.Client;
 import com.narcizo.TesteIrrah.entity.Message;
 import com.narcizo.TesteIrrah.entity.PaymentPlan.PaymentPlan;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -35,7 +37,12 @@ public class ClientService {
         if(this.isPaymentPlanValid(paymentPlan, client))
             client.setPaymentPlan(paymentPlan);
 
-        return repository.save(client);
+        client.setUserPhoneNumbers(this.validateUsersPhoneNumbers(client.getUserPhoneNumbers()));
+
+        if(this.isClientValid(client))
+            return repository.save(client);
+
+        return new Client();
     }
 
     public Client updateClient(Long clientId, Client updatedClient) {
@@ -55,8 +62,16 @@ public class ClientService {
             existingClient.setPaymentPlan(paymentPlan);
         else
             existingClient.setPaymentPlan(null);
+        existingClient.setUserPhoneNumbers(
+                this.validateUsersPhoneNumbers(
+                        updatedClient.getUserPhoneNumbers()
+                )
+        );
 
-        return repository.save(existingClient);
+        if(this.isClientValid(existingClient))
+            return repository.save(existingClient);
+
+        return new Client();
     }
 
     public void deleteClient(Long clientId){
@@ -75,5 +90,25 @@ public class ClientService {
 
     private boolean isPaymentPlanValid(PaymentPlan paymentPlan, Client client){
         return Objects.equals(paymentPlan.getPlanType(), client.getPaymentPlan().getPlanType());
+    }
+
+    private boolean isClientValid(Client client){
+        if (MyUtils.validatePhoneNumber(client.getPhone()).isEmpty() ||
+                MyUtils.validateCpf(client.getCpf()).isEmpty() ||
+                MyUtils.validateCnpj(client.getCnpj()).isEmpty())
+            return false;
+        if (client.getName().isEmpty() ||
+                client.getEmail().isEmpty() ||
+                client.getCompanyName().isEmpty())
+            return false;
+
+        return true;
+    }
+
+    private List<String> validateUsersPhoneNumbers(List<String> phoneList){
+        return phoneList
+                .stream()
+                .filter(phone -> !MyUtils.validatePhoneNumber(phone).isEmpty())
+                .collect(Collectors.toList());
     }
 }

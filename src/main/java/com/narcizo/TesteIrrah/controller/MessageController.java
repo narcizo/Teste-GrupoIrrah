@@ -29,12 +29,12 @@ public class MessageController {
         return ResponseEntity.ok(message);
     }
 
-    @PostMapping
-    public ResponseEntity<Message> createMessage (@RequestBody Message message) {
-        Message created = service.createMessage(message);
-
-        return ResponseEntity.ok(created);
-    }
+//    @PostMapping
+//    public ResponseEntity<Message> createMessage (@RequestBody Message message) {
+//        Message created = service.createMessage(message);
+//
+//        return ResponseEntity.ok(created);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Message> updateMessage(@PathVariable Long id, @RequestBody Message updatedMessage){
@@ -45,5 +45,17 @@ public class MessageController {
     @DeleteMapping("/{id}")
     public void deleteMessage(@PathVariable Long id){
         service.deleteMessage(id);
+    }
+
+    @PostMapping("/send-message/{clientId}")
+    public ResponseEntity<Message> sendMessage(@PathVariable Long clientId, @RequestBody Message message){
+        Message sentmessage = service.sendMessage(clientId, message);
+        return ResponseEntity.ok(sentmessage);
+    }
+
+    @PostMapping("/broadcast-message/{clientId}")
+    public ResponseEntity<Message> broadcastMessage(@PathVariable Long clientId, @RequestBody Message message){
+        Message sentmessage = service.broadcastMessage(clientId, message);
+        return ResponseEntity.ok(sentmessage);
     }
 }

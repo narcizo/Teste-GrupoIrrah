@@ -3,6 +3,8 @@ package com.narcizo.TesteIrrah.entity;
 import com.narcizo.TesteIrrah.entity.PaymentPlan.PaymentPlan;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Client {
     @Id
@@ -19,7 +21,19 @@ public class Client {
     @JoinColumn(name = "payment_plan_id", referencedColumnName = "id")
     private PaymentPlan paymentPlan;
 
-    public Client(long id, String name, String email, String phone, String cpf, String cnpj, String companyName, PaymentPlan paymentPlan) {
+    @ElementCollection // 1
+    @CollectionTable(name = "user_phone_numbers", joinColumns = @JoinColumn(name = "id")) // 2
+    @Column(name = "user_phone_number") // 3
+    private List<String> userPhoneNumbers;
+
+    public Client(long id,
+                  String name,
+                  String email, String phone,
+                  String cpf, String cnpj,
+                  String companyName,
+                  PaymentPlan paymentPlan,
+                  List<String> userPhoneNumbers
+    ) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -28,6 +42,7 @@ public class Client {
         this.cnpj = cnpj;
         this.companyName = companyName;
         this.paymentPlan = paymentPlan;
+        this.userPhoneNumbers = userPhoneNumbers;
     }
 
     public Client() {
@@ -91,5 +106,13 @@ public class Client {
 
     public void setPaymentPlan(PaymentPlan paymentPlan) {
         this.paymentPlan = paymentPlan;
+    }
+
+    public List<String> getUserPhoneNumbers() {
+        return userPhoneNumbers;
+    }
+
+    public void setUserPhoneNumbers(List<String> userPhoneNumbers) {
+        this.userPhoneNumbers = userPhoneNumbers;
     }
 }

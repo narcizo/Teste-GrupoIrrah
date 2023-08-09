@@ -1,12 +1,15 @@
 package com.narcizo.TesteIrrah.service;
 
 import com.narcizo.TesteIrrah.entity.PaymentPlan.PaymentPlan;
+import com.narcizo.TesteIrrah.entity.PaymentPlan.PostPaidPlan;
+import com.narcizo.TesteIrrah.entity.PaymentPlan.PrePaidPlan;
 import com.narcizo.TesteIrrah.repository.PaymentPlanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PaymentPlanService {
@@ -22,7 +25,17 @@ public class PaymentPlanService {
     }
 
     public PaymentPlan createPaymentPlan(PaymentPlan paymentPlan) {
-        return repository.save(paymentPlan);
+        paymentPlan.setPlanType(paymentPlan.getPlanType());
+        paymentPlan.setPlanLimit(paymentPlan.getPlanLimit());
+        paymentPlan.setPlanBalance(paymentPlan.getPlanBalance());
+
+        if(this.isPaymentPlanValid(paymentPlan))
+            return repository.save(paymentPlan);
+
+        if(Objects.equals(paymentPlan.getPlanType(), "POSTPAID"))
+            return new PostPaidPlan();
+
+        return new PrePaidPlan();
     }
 
     public PaymentPlan updatePaymentPlan(Long paymentPlanId, PaymentPlan updatedPaymentPlan){
@@ -32,7 +45,13 @@ public class PaymentPlanService {
         existingPaymentPlan.setPlanLimit(updatedPaymentPlan.getPlanLimit());
         existingPaymentPlan.setPlanType(updatedPaymentPlan.getPlanType());
 
-        return repository.save(existingPaymentPlan);
+        if(this.isPaymentPlanValid(existingPaymentPlan))
+            return repository.save(existingPaymentPlan);
+
+        if(Objects.equals(existingPaymentPlan.getPlanType(), "POSTPAID"))
+            return new PostPaidPlan();
+
+        return new PrePaidPlan();
     }
 
     public void deletePaymentPlan(Long paymentPlanId){
@@ -47,5 +66,14 @@ public class PaymentPlanService {
                         "PaymentPlan not found with id: " +
                                 paymentPlanId
                 ));
+    }
+
+    private boolean isPaymentPlanValid(PaymentPlan paymentPlan){
+        if (Objects.equals(paymentPlan.getPlanType(), "PREPAID"))
+            return paymentPlan.getPlanBalance() > 0;
+        else if (Objects.equals(paymentPlan.getPlanType(), "POSTPAID"))
+            return paymentPlan.getPlanBalance() > 0 && paymentPlan.getPlanLimit() > 0;
+
+        return false;
     }
 }

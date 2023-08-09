@@ -27,6 +27,16 @@ public class MessageService {
         return repository.save(message);
     }
 
+    public Message sendMessage(Long clientId, Message message){
+
+        return message;
+    }
+
+    public Message broadcastMessage(Long clientId, Message message){
+        return message;
+    }
+
+
     public Message updateMessage(Long messageId, Message updatedMessage){
         Message existingMessage = checkIfMessageObjectExists(messageId);
 

@@ -1,10 +1,12 @@
 package com.narcizo.TesteIrrah.controller;
 
+import com.narcizo.TesteIrrah.entity.Client;
 import com.narcizo.TesteIrrah.entity.Message;
 import com.narcizo.TesteIrrah.entity.PaymentPlan.PaymentPlan;
 import com.narcizo.TesteIrrah.service.PaymentPlanService;
 import jakarta.persistence.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +32,19 @@ public class PaymentPlanController {
 
     @PostMapping
     public ResponseEntity<PaymentPlan> createPaymentPlan(@RequestBody PaymentPlan paymentPlan) {
-        PaymentPlan updated = service.createPaymentPlan(paymentPlan);
-        return ResponseEntity.ok(updated);
+        PaymentPlan created = service.createPaymentPlan(paymentPlan);
+
+        if (created.getId() == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(created);
+        return ResponseEntity.ok(created);
     }
 
     @PutMapping
     public ResponseEntity<PaymentPlan> updatePaymentPlan(@PathVariable Long id, @RequestBody PaymentPlan paymentPlan){
         PaymentPlan updated = service.updatePaymentPlan(id, paymentPlan);
+
+        if (updated.getId() == null)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(updated);
         return ResponseEntity.ok(updated);
     }
 
