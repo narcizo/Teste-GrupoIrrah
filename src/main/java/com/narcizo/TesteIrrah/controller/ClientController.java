@@ -14,26 +14,23 @@ import java.util.Optional;
 @RequestMapping(value = "/api/client")
 public class ClientController {
     @Autowired
-    ClientRepository repository;
-    @Autowired
     ClientService service;
 
     @GetMapping
-    public List<Client> listAllClients () {
+    public List<Client> getClientList () {
         return service.getClientList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getClientById(@PathVariable Long id){
+    public ResponseEntity<Client> getCLient(@PathVariable Long id){
         Client client = service.getCLient(id);
 
         return ResponseEntity.ok(client);
     }
 
     @PostMapping
-    public ResponseEntity<Client> saveClient (@RequestBody Client client) {
+    public ResponseEntity<Client> createClient (@RequestBody Client client) {
         Client created = service.createClient(client);
-        System.out.println("Save client");
         return ResponseEntity.ok(created);
     }
 

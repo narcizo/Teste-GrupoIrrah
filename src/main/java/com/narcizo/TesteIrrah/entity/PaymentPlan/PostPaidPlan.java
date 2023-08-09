@@ -8,13 +8,24 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("POSTPAID")
 @JsonTypeName("POSTPAID")
 public class PostPaidPlan extends PaymentPlan {
+    private Long id;
     private double planBalance;
 
-    public PostPaidPlan(double balance) {
+    public PostPaidPlan(Long id, double balance, String planType) {
+        this.id = id;
         this.planBalance = balance;
     }
 
     public PostPaidPlan() {
+        setPlanType("POSTPAID");
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public double getPlanBalance() {

@@ -15,8 +15,8 @@ public class Client {
     private String cnpj;
     private String companyName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_plan_id")
+    @ManyToOne(targetEntity = PaymentPlan.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "payment_plan_id", referencedColumnName = "id")
     private PaymentPlan paymentPlan;
 
     public Client(long id, String name, String email, String phone, String cpf, String cnpj, String companyName, PaymentPlan paymentPlan) {

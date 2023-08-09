@@ -8,15 +8,26 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("PREPAID")
 @JsonTypeName("PREPAID")
 public class PrePaidPlan extends PaymentPlan {
+    Long id;
     private double planLimit;
     private double planBalance;
 
-    public PrePaidPlan(double planLimit, double balance) {
+    public PrePaidPlan(Long id, double planLimit, double balance) {
+        this.id = id;
         this.planLimit = planLimit;
         this.planBalance = balance;
     }
 
     public PrePaidPlan() {
+        setPlanType("PREPAID");
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public double getPlanLimit() {

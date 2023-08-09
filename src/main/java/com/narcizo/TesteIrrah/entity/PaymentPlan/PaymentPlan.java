@@ -7,7 +7,12 @@ import jakarta.persistence.*;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "plan_type", discriminatorType = DiscriminatorType.STRING)
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "planType", visible = true)
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.EXISTING_PROPERTY,
+        property = "planType",
+        visible = true
+)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = PrePaidPlan.class, name = "PREPAID"),
         @JsonSubTypes.Type(value = PostPaidPlan.class, name = "POSTPAID")
@@ -18,6 +23,8 @@ public abstract class PaymentPlan {
     private Long id;
     private double planBalance;
     private double planLimit;
+    @Transient
+    private String planType;
 
     public PaymentPlan(double planBalance, double planLimit) {
         this.planBalance = planBalance;
@@ -25,6 +32,18 @@ public abstract class PaymentPlan {
     }
 
     public PaymentPlan() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getPlanType() {
+        return planType;
+    }
+
+    public void setPlanType(String planType) {
+        this.planType = planType;
     }
 
     public double getPlanBalance() {

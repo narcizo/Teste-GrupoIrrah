@@ -15,50 +15,35 @@ import java.util.Optional;
 @RequestMapping(value = "/api/message")
 public class MessageController {
     @Autowired
-    MessageRepository repository;
-    @Autowired
     MessageService service;
 
     @GetMapping
-    public List<Message> listAllMessages () throws IOException {
-        System.out.println("List messages");
-        return repository.findAll();
+    public List<Message> getMessageList () {
+        return service.getMessageList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Message>> getMessageById(@PathVariable Long id){
-        Optional<Message> message = repository.findById(id);
-        System.out.println("List single message");
+    public ResponseEntity<Message> getMessage(@PathVariable Long id){
+        Message message = service.getMessage(id);
 
         return ResponseEntity.ok(message);
     }
 
     @PostMapping
-    public void saveMessage (@RequestBody Message message) throws IOException {
-        repository.save(message);
-        System.out.println("Save message");
+    public ResponseEntity<Message> createMessage (@RequestBody Message message) {
+        Message created = service.createMessage(message);
+
+        return ResponseEntity.ok(created);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Optional<Message>> updateMessage(@PathVariable Long id, @RequestBody Message updatedMessage){
-        Optional<Message> message = repository.findById(id);
-
-        message.ifPresent(m -> m.setSenderPhone(updatedMessage.getSenderPhone()));
-        message.ifPresent(m -> m.setReceiverPhone(updatedMessage.getReceiverPhone()));
-        message.ifPresent(m -> m.setMessageType(updatedMessage.getMessageType()));
-        message.ifPresent(m -> m.setTextMessage(updatedMessage.getTextMessage()));
-
-        message.ifPresent(c -> repository.save(c));
-
-        System.out.println("Update message");
-        return ResponseEntity.ok(message);
+    public ResponseEntity<Message> updateMessage(@PathVariable Long id, @RequestBody Message updatedMessage){
+        Message updated = service.updateMessage(id, updatedMessage);
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public void deleteMessage(@PathVariable Long id){
-        Optional<Message> message = repository.findById(id);
-
-        message.ifPresent(m -> repository.delete(m));
-        System.out.println("Delete message");
+        service.deleteMessage(id);
     }
 }
