@@ -16,8 +16,32 @@ public abstract class PaymentPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double balance;
+    private double planBalance;
     private double planLimit;
+
+    public PaymentPlan(double planBalance, double planLimit) {
+        this.planBalance = planBalance;
+        this.planLimit = planLimit;
+    }
+
+    public PaymentPlan() {
+    }
+
+    public double getPlanBalance() {
+        return planBalance;
+    }
+
+    public void setPlanBalance(double planBalance) {
+        this.planBalance = planBalance;
+    }
+
+    public double getPlanLimit() {
+        return planLimit;
+    }
+
+    public void setPlanLimit(double planLimit) {
+        this.planLimit = planLimit;
+    }
 
     public abstract void usePlan(double cost);
 }

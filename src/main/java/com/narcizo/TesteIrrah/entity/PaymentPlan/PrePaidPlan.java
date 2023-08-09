@@ -9,11 +9,11 @@ import jakarta.persistence.Entity;
 @JsonTypeName("PREPAID")
 public class PrePaidPlan extends PaymentPlan {
     private double planLimit;
-    private double balance;
+    private double planBalance;
 
     public PrePaidPlan(double planLimit, double balance) {
         this.planLimit = planLimit;
-        this.balance = balance;
+        this.planBalance = balance;
     }
 
     public PrePaidPlan() {
@@ -27,18 +27,18 @@ public class PrePaidPlan extends PaymentPlan {
         this.planLimit = planLimit;
     }
 
-    public double getBalance() {
-        return balance;
+    public double getPlanBalance() {
+        return planBalance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setPlanBalance(double planBalance) {
+        this.planBalance = planBalance;
     }
 
     @Override
     public void usePlan(double cost) {
-        if (balance + cost <= planLimit) {
-            balance += cost;
+        if (planBalance + cost <= planLimit) {
+            planBalance += cost;
         } else {
             // TODO Handle exceeded limit
         }

@@ -20,7 +20,7 @@ public class ClientController {
     ClientService service;
 
     @GetMapping
-    public List<Client> listAllClients () throws IOException {
+    public List<Client> listAllClients () {
         System.out.println("List clients");
         return repository.findAll();
     }
@@ -34,7 +34,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public void saveClient (@RequestBody Client client) throws IOException {
+    public void saveClient (@RequestBody Client client) {
         repository.save(client);
         System.out.println("Save client");
     }

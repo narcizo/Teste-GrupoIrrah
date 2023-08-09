@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class PaymentPlanService {
     @Autowired
-    private PaymentPlanRepository paymentPlanRepository;
+    private PaymentPlanRepository repository;
 
     public PaymentPlan savePaymentPlan(PaymentPlan paymentPlan) {
 
-        return paymentPlanRepository.save(paymentPlan);
+        return repository.save(paymentPlan);
     }
 }

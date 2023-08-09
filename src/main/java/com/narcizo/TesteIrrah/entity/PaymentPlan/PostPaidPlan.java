@@ -8,32 +8,29 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("POSTPAID")
 @JsonTypeName("POSTPAID")
 public class PostPaidPlan extends PaymentPlan {
-    private double balance;
-
-    // Constructors, getters, setters
-
+    private double planBalance;
 
     public PostPaidPlan(double balance) {
-        this.balance = balance;
+        this.planBalance = balance;
     }
 
     public PostPaidPlan() {
     }
 
-    public double getBalance() {
-        return balance;
+    public double getPlanBalance() {
+        return planBalance;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setPlanBalance(double planBalance) {
+        this.planBalance = planBalance;
     }
 
     @Override
     public void usePlan(double cost) {
-//        if (balance >= cost) {
-//            balance -= cost;
-//        } else {
-//            // TODO Handle insufficient balance
-//        }
+        if (planBalance >= cost) {
+            planBalance -= cost;
+        } else {
+            // TODO Handle insufficient balance
+        }
     }
 }
