@@ -21,14 +21,14 @@ public abstract class PaymentPlan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double planBalance;
-    private double planLimit;
-    @Transient
+    private double basePlanBalance;
+    private double basePlanLimit;
+    @Column(name = "plan_type", insertable = false, updatable = false)
     private String planType;
 
     public PaymentPlan(double planBalance, double planLimit) {
-        this.planBalance = planBalance;
-        this.planLimit = planLimit;
+        this.basePlanBalance = planBalance;
+        this.basePlanLimit = planLimit;
     }
 
     public PaymentPlan() {
@@ -46,20 +46,20 @@ public abstract class PaymentPlan {
         this.planType = planType;
     }
 
-    public double getPlanBalance() {
-        return planBalance;
+    public double getBasePlanBalance() {
+        return basePlanBalance;
     }
 
-    public void setPlanBalance(double planBalance) {
-        this.planBalance = planBalance;
+    public void setBasePlanBalance(double basePlanBalance) {
+        this.basePlanBalance = basePlanBalance;
     }
 
-    public double getPlanLimit() {
-        return planLimit;
+    public double getBasePlanLimit() {
+        return basePlanLimit;
     }
 
-    public void setPlanLimit(double planLimit) {
-        this.planLimit = planLimit;
+    public void setBasePlanLimit(double basePlanLimit) {
+        this.basePlanLimit = basePlanLimit;
     }
 
     public abstract void usePlan(double cost);

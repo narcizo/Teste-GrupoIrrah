@@ -25,15 +25,26 @@ public class PaymentPlanService {
     }
 
     public PaymentPlan createPaymentPlan(PaymentPlan paymentPlan) {
-        paymentPlan.setPlanType(paymentPlan.getPlanType());
-        paymentPlan.setPlanLimit(paymentPlan.getPlanLimit());
-        paymentPlan.setPlanBalance(paymentPlan.getPlanBalance());
+        if (Objects.equals(paymentPlan.getPlanType(), "PREPAID")) {
+            PrePaidPlan prePlan = new PrePaidPlan(
+                    paymentPlan.getBasePlanBalance()
+            );
+            prePlan.setPlanType(paymentPlan.getPlanType());
 
-        if(this.isPaymentPlanValid(paymentPlan))
-            return repository.save(paymentPlan);
+            if(this.isPaymentPlanValid(prePlan))
+                return repository.save(prePlan);
+            return new PrePaidPlan();
+        }
+        else if(Objects.equals(paymentPlan.getPlanType(), "POSTPAID")) {
+            PostPaidPlan postPlan = new PostPaidPlan(
+                    paymentPlan.getBasePlanBalance(), paymentPlan.getBasePlanLimit()
+            );
+            postPlan.setPlanType(paymentPlan.getPlanType());
 
-        if(Objects.equals(paymentPlan.getPlanType(), "POSTPAID"))
+            if(this.isPaymentPlanValid(postPlan))
+                return repository.save(postPlan);
             return new PostPaidPlan();
+        }
 
         return new PrePaidPlan();
     }
@@ -41,8 +52,8 @@ public class PaymentPlanService {
     public PaymentPlan updatePaymentPlan(Long paymentPlanId, PaymentPlan updatedPaymentPlan){
         PaymentPlan existingPaymentPlan = this.checkIfPaymentPlanObjectExists(paymentPlanId);
 
-        existingPaymentPlan.setPlanBalance(updatedPaymentPlan.getPlanBalance());
-        existingPaymentPlan.setPlanLimit(updatedPaymentPlan.getPlanLimit());
+        existingPaymentPlan.setBasePlanBalance(updatedPaymentPlan.getBasePlanBalance());
+        existingPaymentPlan.setBasePlanLimit(updatedPaymentPlan.getBasePlanLimit());
         existingPaymentPlan.setPlanType(updatedPaymentPlan.getPlanType());
 
         if(this.isPaymentPlanValid(existingPaymentPlan))
@@ -70,9 +81,9 @@ public class PaymentPlanService {
 
     private boolean isPaymentPlanValid(PaymentPlan paymentPlan){
         if (Objects.equals(paymentPlan.getPlanType(), "PREPAID"))
-            return paymentPlan.getPlanBalance() > 0;
+            return paymentPlan.getBasePlanBalance() > 0;
         else if (Objects.equals(paymentPlan.getPlanType(), "POSTPAID"))
-            return paymentPlan.getPlanBalance() > 0 && paymentPlan.getPlanLimit() > 0;
+            return paymentPlan.getBasePlanBalance() >= 0 && paymentPlan.getBasePlanLimit() > 0;
 
         return false;
     }

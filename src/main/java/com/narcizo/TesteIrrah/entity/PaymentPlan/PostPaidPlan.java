@@ -8,12 +8,11 @@ import jakarta.persistence.Entity;
 @DiscriminatorValue("POSTPAID")
 @JsonTypeName("POSTPAID")
 public class PostPaidPlan extends PaymentPlan {
-    private Long id;
-    private double planBalance;
+    Long id;
 
-    public PostPaidPlan(Long id, double balance, String planType) {
-        this.id = id;
-        this.planBalance = balance;
+    public PostPaidPlan(double balance, double planLimit) {
+        super.setBasePlanBalance(balance);
+        super.setBasePlanLimit(planLimit);
     }
 
     public PostPaidPlan() {
@@ -28,20 +27,12 @@ public class PostPaidPlan extends PaymentPlan {
         this.id = id;
     }
 
-    public double getPlanBalance() {
-        return planBalance;
-    }
-
-    public void setPlanBalance(double planBalance) {
-        this.planBalance = planBalance;
-    }
-
     @Override
     public void usePlan(double cost) {
-        if (planBalance >= cost) {
-            planBalance -= cost;
+        if (getBasePlanBalance() + cost <= getBasePlanLimit()) {
+            setBasePlanBalance(getBasePlanBalance() + cost);
         } else {
-            // TODO Handle insufficient balance
+            // TODO Handle exceeded limit
         }
     }
 }

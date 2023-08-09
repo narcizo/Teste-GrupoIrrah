@@ -39,7 +39,7 @@ public class PaymentPlanController {
         return ResponseEntity.ok(created);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<PaymentPlan> updatePaymentPlan(@PathVariable Long id, @RequestBody PaymentPlan paymentPlan){
         PaymentPlan updated = service.updatePaymentPlan(id, paymentPlan);
 

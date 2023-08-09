@@ -1,6 +1,8 @@
 package com.narcizo.TesteIrrah.entity.PaymentPlan;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
@@ -9,13 +11,9 @@ import jakarta.persistence.Entity;
 @JsonTypeName("PREPAID")
 public class PrePaidPlan extends PaymentPlan {
     Long id;
-    private double planLimit;
-    private double planBalance;
 
-    public PrePaidPlan(Long id, double planLimit, double balance) {
-        this.id = id;
-        this.planLimit = planLimit;
-        this.planBalance = balance;
+    public PrePaidPlan(double balance) {
+        super.setBasePlanBalance(balance);
     }
 
     public PrePaidPlan() {
@@ -30,28 +28,13 @@ public class PrePaidPlan extends PaymentPlan {
         this.id = id;
     }
 
-    public double getPlanLimit() {
-        return planLimit;
-    }
-
-    public void setPlanLimit(double planLimit) {
-        this.planLimit = planLimit;
-    }
-
-    public double getPlanBalance() {
-        return planBalance;
-    }
-
-    public void setPlanBalance(double planBalance) {
-        this.planBalance = planBalance;
-    }
 
     @Override
     public void usePlan(double cost) {
-        if (planBalance + cost <= planLimit) {
-            planBalance += cost;
+        if (getBasePlanBalance() >= cost) {
+            setBasePlanBalance(getBasePlanBalance() - cost);
         } else {
-            // TODO Handle exceeded limit
+            // TODO Handle insufficient balance
         }
     }
 }
