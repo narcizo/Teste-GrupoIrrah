@@ -1,9 +1,7 @@
 package com.narcizo.TesteIrrah.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.narcizo.TesteIrrah.entity.PaymentPlan.PaymentPlan;
+import jakarta.persistence.*;
 
 @Entity
 public class Client {
@@ -17,7 +15,11 @@ public class Client {
     private String cnpj;
     private String companyName;
 
-    public Client(long id, String name, String email, String phone, String cpf, String cnpj, String companyName) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_plan_id")
+    private PaymentPlan paymentPlan;
+
+    public Client(long id, String name, String email, String phone, String cpf, String cnpj, String companyName, PaymentPlan paymentPlan) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -25,6 +27,7 @@ public class Client {
         this.cpf = cpf;
         this.cnpj = cnpj;
         this.companyName = companyName;
+        this.paymentPlan = paymentPlan;
     }
 
     public Client() {
@@ -80,5 +83,13 @@ public class Client {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public PaymentPlan getPaymentPlan() {
+        return paymentPlan;
+    }
+
+    public void setPaymentPlan(PaymentPlan paymentPlan) {
+        this.paymentPlan = paymentPlan;
     }
 }
