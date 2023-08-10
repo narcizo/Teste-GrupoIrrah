@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MessageService {
@@ -25,8 +26,15 @@ public class MessageService {
       return repository.findAll();
     }
 
-    public Message getMessage(Long messageId){
-        return checkIfMessageObjectExists(messageId);
+    public List<Message> getMessagesFromClient(Long clientId){
+        Client client = clientService.checkIfClientObjectExists(clientId);
+
+        return this.getMessageList()
+                .stream()
+                .filter(
+                        message -> message.getClient().getId() == clientId
+                )
+                .collect(Collectors.toList());
     }
 
     public Message sendMessage(Long clientId, Message message){
@@ -36,6 +44,7 @@ public class MessageService {
             return new Message();
 
         message.setSenderPhone(client.getPhone());
+        message.setClient(client);
 
         return repository.save(this.actuallySendMessage(message, client));
     }
@@ -48,6 +57,7 @@ public class MessageService {
             return new Message();
 
         message.setSenderPhone(client.getPhone());
+        message.setClient(client);
 
         client.getUserPhoneNumbers().forEach(phone -> {
             Message newMessage = new Message(message);

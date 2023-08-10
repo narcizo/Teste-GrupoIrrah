@@ -24,12 +24,10 @@ public class MessageController {
     }
 
     @GetMapping("/client/{clientId}")
-    public ResponseEntity<Message> getMessagesClient(@PathVariable Long id){
-        //TODO
-        Message message = service.getMessage(id);
-        System.out.println("clientId");
+    public ResponseEntity<List<Message>> getMessagesClient(@PathVariable Long clientId){
+        List<Message> messages = service.getMessagesFromClient(clientId);
 
-        return ResponseEntity.ok(message);
+        return ResponseEntity.ok(messages);
     }
 
     @PostMapping("/send-message/{clientId}")
