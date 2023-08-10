@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,13 +21,14 @@ public class MessageService {
     @Autowired
     ClientService clientService;
 
+    @Autowired
+    MessageSenderService messageSenderservice;
+
     public List<Message> getMessageList(){
       return repository.findAll();
     }
 
     public List<Message> getMessagesFromClient(Long clientId){
-        Client client = clientService.checkIfClientObjectExists(clientId);
-
         return this.getMessageList()
                 .stream()
                 .filter(
@@ -51,7 +51,7 @@ public class MessageService {
 
     public Message broadcastMessage(Long clientId, Message message){
         Client client = clientService.checkIfClientObjectExists(clientId);
-        List<Message> messageList = new ArrayList<Message>();
+        List<Message> messageList = new ArrayList<>();
 
         if(!isMessageValid(message))
             return new Message();
@@ -109,23 +109,15 @@ public class MessageService {
                 return new Message();
 
             client.addMessage(message);
-            return sendSms(message);
+            messageSenderservice.sendSms(message.getReceiverPhone(), message.getTextMessage());
+            return message;
 
         }else if(Objects.equals(message.getMessageType(), "whatsapp")){
             client.addMessage(message);
-            return sendWhatsapp(message);
+            messageSenderservice.sendWhatsAppMessage(message.getReceiverPhone(), message.getTextMessage());
+            return message;
         }
 
         return new Message();
-    }
-
-    private Message sendSms(Message message){
-        //TODO send sms to message.getReceiverPhone()
-        return message;
-    }
-
-    private Message sendWhatsapp(Message message){
-        //TODO send whatsapp to message.getReceiverPhone()
-        return message;
     }
 }

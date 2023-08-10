@@ -24,7 +24,7 @@ public class MyUtils {
         if (digits[9] == firstVerifier && digits[10] == secondVerifier)
             return String.format("%03d.%03d.%03d-%02d",
                     digits[0], digits[1], digits[2],
-                    digits[9] * 10 + digits[10]);;
+                    digits[9] * 10 + digits[10]);
 
         return "";
     }
