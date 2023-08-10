@@ -1,0 +1,516 @@
+{
+	"info": {
+		"_postman_id": "746576de-bd14-4406-8ead-0b0b31b27cfd",
+		"name": "Teste Irrah",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8963719"
+	},
+	"item": [
+		{
+			"name": "Client",
+			"item": [
+				{
+					"name": "/api/client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/client",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/client",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Carlos Alberto\",\r\n    \"email\": \"carlos@email.com\",\r\n    \"phone\": \"(44)99234-5678\",\r\n    \"cpf\":  \"247.794.330-88\",\r\n    \"cnpj\": \"15.436.940/0001-03\",\r\n    \"companyName\": \"Irrah\",\r\n    \"paymentPlan\": {\r\n        \"planType\": \"PREPAID\",\r\n        \"id\": 3\r\n    },\r\n    \"userPhoneNumbers\": [\"(44)98888-7777\", \"(44)96333-4444\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/client",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/client (mínimo)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Carlos Alberto\",\r\n    \"email\": \"carlos@email.com\",\r\n    \"phone\": \"(44)99234-5678\",\r\n    \"cpf\":  \"247.794.330-88\",\r\n    \"cnpj\": \"15.436.940/0001-03\",\r\n    \"companyName\": \"Irrah\",\r\n    \"paymentPlan\": {\r\n        \"planType\": \"POSTPAID\",\r\n        \"id\": 4\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/client",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"client"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/client/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/client/6",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"client",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/client/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Narcizo\",\r\n    \"email\": \"narcizo@email.com\",\r\n    \"phone\": \"(44)99143-1516\",\r\n    \"cpf\":  \"247.794.330-88\",\r\n    \"cnpj\": \"15.436.940/0001-03\",\r\n    \"companyName\": \"Irrah\",\r\n    \"paymentPlan\": {\r\n        \"planType\": \"POSTPAID\",\r\n        \"id\": 4\r\n    },\r\n    \"userPhoneNumbers\": [\"(44)99143-1516\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/client/3",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"client",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/client/:id (mínimo)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Narcizo\",\r\n    \"email\": \"carlos@email.com\",\r\n    \"phone\": \"(44)99143-1516\",\r\n    \"cpf\":  \"247.794.330-88\",\r\n    \"cnpj\": \"15.436.940/0001-03\",\r\n    \"companyName\": \"Irrah\",\r\n    \"paymentPlan\": {\r\n        \"planType\": \"PREPAID\",\r\n        \"id\": 3\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/client/3",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"client",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/client/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/client/1",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"client",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Message",
+			"item": [
+				{
+					"name": "/api/message",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/message",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/message/send-message/:id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiverPhone\": \"(44)99143-1516\",\r\n    \"messageType\": \"sms\",\r\n    \"textMessage\": \"teste twilio filnal\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/message/send-message/6",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"send-message",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/message/broadcast-message:id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"receiverPhone\": \"(11)96222-2222\",\r\n    \"messageType\": \"sms\",\r\n    \"textMessage\": \"oiiiii\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/message/broadcast-message/1",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"broadcast-message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/message/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/message/2",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/message/client/:id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/message/client/3",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"client",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/message/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"senderPhone\": \"123\",\r\n    \"receiverPhone\": \"321\",\r\n    \"messageType\": \"sms\",\r\n    \"textMessage\": \"tchauuuu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/message/1",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/message/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/message/43",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"43"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/message/delete-all",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/message/delete-all",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"message",
+								"delete-all"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PaymentPlan",
+			"item": [
+				{
+					"name": "Get Paymentplan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{myUrl}}/api/payment-plan",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-plan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PrePaid",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"planType\": \"PREPAID\",\r\n    \"basePlanBalance\": 0.3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/payment-plan",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-plan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PostPaid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"planType\": \"POSTPAID\",\r\n    \"basePlanBalance\": 0,\r\n    \"basePlanLimit\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/payment-plan",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-plan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/payment-plan/:id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"planType\": \"PREPAID\",\r\n    \"basePlanBalance\": 10,\r\n    \"basePlanLimit\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/payment-plan/3",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-plan",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/payment-plan/:id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{myUrl}}/api/payment-plan/1",
+							"host": [
+								"{{myUrl}}"
+							],
+							"path": [
+								"api",
+								"payment-plan",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "myUrl",
+			"value": "r"
+		}
+	]
+}

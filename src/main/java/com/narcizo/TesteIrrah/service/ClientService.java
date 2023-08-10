@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -30,6 +31,9 @@ public class ClientService {
     }
 
     public Client createClient(Client client){
+        if(client.getPaymentPlan() == null)
+            return new Client();
+
         Long paymentPlanId = client.getPaymentPlan().getId();
 
         PaymentPlan paymentPlan =  paymentPlanService.checkIfPaymentPlanObjectExists(paymentPlanId);
@@ -46,8 +50,10 @@ public class ClientService {
     }
 
     public Client updateClient(Long clientId, Client updatedClient) {
-        Client existingClient = checkIfClientObjectExists(clientId);
+        if(updatedClient.getPaymentPlan() == null)
+            return new Client();
 
+        Client existingClient = checkIfClientObjectExists(clientId);
         Long paymentPlanId = existingClient.getPaymentPlan().getId();
 
         PaymentPlan paymentPlan =  paymentPlanService.checkIfPaymentPlanObjectExists(paymentPlanId);
@@ -106,7 +112,9 @@ public class ClientService {
     }
 
     private List<String> validateUsersPhoneNumbers(List<String> phoneList){
-        return phoneList
+        return phoneList == null
+                ? new ArrayList<String>()
+                : phoneList
                 .stream()
                 .filter(phone -> !MyUtils.validatePhoneNumber(phone).isEmpty())
                 .collect(Collectors.toList());

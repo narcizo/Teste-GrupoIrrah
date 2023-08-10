@@ -2,6 +2,7 @@ package com.narcizo.TesteIrrah.entity;
 
 import com.narcizo.TesteIrrah.entity.PaymentPlan.PaymentPlan;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank(message = "Name is mandatory")
     private String name;
     private String email;
     private String phone;
@@ -18,6 +20,7 @@ public class Client {
     private String cnpj;
     private String companyName;
 
+    @NotBlank(message = "Payment Plan is mandatory")
     @ManyToOne(targetEntity = PaymentPlan.class, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "payment_plan_id", referencedColumnName = "id")
     private PaymentPlan paymentPlan;

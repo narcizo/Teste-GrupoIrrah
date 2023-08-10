@@ -15,23 +15,25 @@ public class MessageSenderService {
     private String authToken;
 
     public void sendSms(String receiverPhoneNumber, String messageBody) {
-        Twilio.init(accountSid, authToken);
-
-        Message.creator(
-                new PhoneNumber("+55"+receiverPhoneNumber),
-                new PhoneNumber("+17723205178"),
-                messageBody
-        ).create();
+        // COMENTADO POIS CONTÉM DADOS SENSÍVEIS
+//        Twilio.init(accountSid, authToken);
+//
+//        Message.creator(
+//                new PhoneNumber("+55"+receiverPhoneNumber),
+//                new PhoneNumber("+17723205178"),
+//                messageBody
+//        ).create();
     }
 
     public void sendWhatsAppMessage(String receiverPhoneNumber, String messageBody) {
-        receiverPhoneNumber = receiverPhoneNumber.replaceAll("[^\\d.]", "");
-        Twilio.init(accountSid, authToken);
-
-        Message.creator(
-                new com.twilio.type.PhoneNumber("whatsapp:+55" + receiverPhoneNumber),
-                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
-                messageBody
-        ).create();
+        // COMENTADO POIS CONTÉM DADOS SENSÍVEIS
+//        receiverPhoneNumber = receiverPhoneNumber.replaceAll("[^\\d.]", "");
+//        Twilio.init(accountSid, authToken);
+//
+//        Message.creator(
+//                new com.twilio.type.PhoneNumber("whatsapp:+55" + receiverPhoneNumber),
+//                new com.twilio.type.PhoneNumber("whatsapp:+14155238886"),
+//                messageBody
+//        ).create();
     }
 }
