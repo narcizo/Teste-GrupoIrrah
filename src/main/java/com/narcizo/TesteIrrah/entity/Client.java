@@ -3,6 +3,7 @@ package com.narcizo.TesteIrrah.entity;
 import com.narcizo.TesteIrrah.entity.PaymentPlan.PaymentPlan;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,13 +27,17 @@ public class Client {
     @Column(name = "user_phone_number") // 3
     private List<String> userPhoneNumbers;
 
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages = new ArrayList<>();
+
     public Client(long id,
                   String name,
                   String email, String phone,
                   String cpf, String cnpj,
                   String companyName,
                   PaymentPlan paymentPlan,
-                  List<String> userPhoneNumbers
+                  List<String> userPhoneNumbers,
+                  List<Message> messages
     ) {
         this.id = id;
         this.name = name;
@@ -43,6 +48,7 @@ public class Client {
         this.companyName = companyName;
         this.paymentPlan = paymentPlan;
         this.userPhoneNumbers = userPhoneNumbers;
+        this.messages = messages;
     }
 
     public Client() {
@@ -114,5 +120,23 @@ public class Client {
 
     public void setUserPhoneNumbers(List<String> userPhoneNumbers) {
         this.userPhoneNumbers = userPhoneNumbers;
+    }
+
+    public List<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Message> messages) {
+        this.messages = messages;
+    }
+
+    public void addMessage(Message message) {
+        messages.add(message);
+        message.setClient(this);
+    }
+
+    public void removeMessage(Message message) {
+        messages.remove(message);
+        message.setClient(null);
     }
 }

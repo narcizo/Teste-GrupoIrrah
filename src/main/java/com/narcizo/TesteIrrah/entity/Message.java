@@ -1,9 +1,7 @@
 package com.narcizo.TesteIrrah.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 
 @Entity
 public class Message {
@@ -15,12 +13,32 @@ public class Message {
     private String messageType;
     private String textMessage;
 
-    public Message(long id, String senderPhone, String receiverPhone, String messageType, String textMessage) {
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    public Message(long id,
+                   String senderPhone,
+                   String receiverPhone,
+                   String messageType,
+                   String textMessage,
+                   Client client
+    ) {
         this.id = id;
         this.senderPhone = senderPhone;
         this.receiverPhone = receiverPhone;
         this.messageType = messageType;
         this.textMessage = textMessage;
+        this.client = client;
+    }
+
+    public Message(Message anotherMessage){
+        this.senderPhone = anotherMessage.getSenderPhone();
+        this.receiverPhone = anotherMessage.getReceiverPhone();
+        this.messageType = anotherMessage.getMessageType();
+        this.textMessage = anotherMessage.getTextMessage();
+        this.client = anotherMessage.getClient();
     }
 
     public Message() {
@@ -64,5 +82,13 @@ public class Message {
 
     public void setTextMessage(String textMessage) {
         this.textMessage = textMessage;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

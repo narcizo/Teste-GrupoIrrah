@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class MessageService {
 
     public Message broadcastMessage(Long clientId, Message message){
         Client client = clientService.checkIfClientObjectExists(clientId);
+        List<Message> messageList = new ArrayList<Message>();
 
         if(!isMessageValid(message))
             return new Message();
@@ -48,11 +50,19 @@ public class MessageService {
         message.setSenderPhone(client.getPhone());
 
         client.getUserPhoneNumbers().forEach(phone -> {
-            message.setReceiverPhone(phone);
-            repository.save(actuallySendMessage(message, client));
+            Message newMessage = new Message(message);
+            newMessage.setReceiverPhone(phone);
+            messageList.add(actuallySendMessage(
+                    newMessage,
+                    client));
         });
 
-        return message;
+        messageList.forEach(msg -> repository.save(msg));
+
+        if(messageList.isEmpty())
+            return message;
+
+        return messageList.get(0);
     }
 
     public void deleteMessage(Long messageId){
@@ -88,8 +98,11 @@ public class MessageService {
             if(balanceLeft == -1)
                 return new Message();
 
+            client.addMessage(message);
             return sendSms(message);
+
         }else if(Objects.equals(message.getMessageType(), "whatsapp")){
+            client.addMessage(message);
             return sendWhatsapp(message);
         }
 
