@@ -28,11 +28,13 @@ public class PostPaidPlan extends PaymentPlan {
     }
 
     @Override
-    public void usePlan(double cost) {
-        if (getBasePlanBalance() + cost <= getBasePlanLimit()) {
-            setBasePlanBalance(getBasePlanBalance() + cost);
+    public double usePlan(double cost) {
+        double newBalance = getBasePlanBalance() + cost;
+        if (newBalance <= getBasePlanLimit()) {
+            setBasePlanBalance(newBalance);
+            return newBalance;
         } else {
-            // TODO Handle exceeded limit
+            return -1;
         }
     }
 }

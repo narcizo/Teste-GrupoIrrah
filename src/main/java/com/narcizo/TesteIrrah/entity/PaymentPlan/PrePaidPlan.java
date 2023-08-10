@@ -30,11 +30,13 @@ public class PrePaidPlan extends PaymentPlan {
 
 
     @Override
-    public void usePlan(double cost) {
+    public double usePlan(double cost) {
         if (getBasePlanBalance() >= cost) {
-            setBasePlanBalance(getBasePlanBalance() - cost);
+            double newBalance = getBasePlanBalance() - cost;
+            setBasePlanBalance(newBalance);
+            return newBalance;
         } else {
-            // TODO Handle insufficient balance
+            return -1;
         }
     }
 }

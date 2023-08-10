@@ -62,5 +62,5 @@ public abstract class PaymentPlan {
         this.basePlanLimit = basePlanLimit;
     }
 
-    public abstract void usePlan(double cost);
+    public abstract double usePlan(double cost);
 }
