@@ -5,33 +5,35 @@ Spring-boot 3.1.2
 
 
 ## Docker
-Utilizei o docker durante o desenvolvimento para hostear o banco de dados. Executei ele como descrito abaixo:
 
-Rodar o seguinte comando para subir o container do PostgreSQL:
+Baixar a imagem com o .jar do [DockerHub](https://hub.docker.com/repository/docker/narcizo/teste_irrah_backend_img/general).
+
+Após baixar a imagem rodar o seguinte comando para subir os containers do PostgreSQL e do SpringBoot:
 ```
-cd docker
-docker-compose build
+cd src/main/docker
 docker-compose up
 cd ..
 ```
 
-Infelizmente não consegui conectar o container do SpringBoot com o container do PostgreSQL.
-Acredito que seja só alguma questão de configuração de host ou porta, pois o container do SpringBoot
-não está conseguindo se conectar ao BD na hora de rodar o projeto.
-
-Mesmo assim vou deixar a imagem do projeto aqui através do [DockerHub](https://hub.docker.com/repository/docker/narcizo/teste_irrah_backend_img/general).
-
-Para criar um container dessa imagem, rodar o seguinte comando após baixar a imagem:
-```
-docker run -d -p 8081:8081 --name=teste_irrah_narcizo_con teste_irrah_backend_img
-```
+Após isso é possivel acessar a API através do endereço ```localhost:8081/<caminho-endpoint>```
 
 ## Banco de Dados
 Na pasta /pgdump tem um arquivo .sql que pode ser rodado para obter um 
-backup do banco de dados que usei. Use o seguinte comando:
+backup do banco de dados que usei.
+
+Primeiro temos que colocar esse arquivo para dentro do container. Para isso rode
+
+```
+docker cp <caminho<pgdump/backup.sql>> docker-db-1:/docker-pgdump/backup.sql
+```
+
+Depois use o seguinte comando para executar o sql:
 ```
 docker exec docker-db-1 psql -U admin teste_irrah_db < /pgdump/backup.sql
 ```
+
+IMPORTANTE: Para criar um cliente o campo ```paymentPlan``` é obrigatório. Se certifique que
+```paymentPlan.planType``` e ```paymentPlan.id``` existam e estejam corretos. 
 
 ## IDE
 Caso vá rodar numa IDE, eu usei o IntelliJ Community Edition e essas foram minhas configurações para 
